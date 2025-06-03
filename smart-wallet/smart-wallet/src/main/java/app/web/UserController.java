@@ -1,12 +1,12 @@
 package app.web;
 
-import app.security.RequireAdminRole;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.UserEditRequest;
 import app.web.mapper.DtoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +33,8 @@ public class UserController {
         this.userService = userService;
     }
 
-      @RequireAdminRole
       @GetMapping
+      @PreAuthorize("hasRole('ADMIN')")
       public ModelAndView getAllUsers(){
 
         List <User> users = userService.getAllUsers ();

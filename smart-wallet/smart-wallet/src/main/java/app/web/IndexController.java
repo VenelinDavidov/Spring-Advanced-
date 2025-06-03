@@ -1,24 +1,25 @@
 package app.web;
 
-import app.user.model.Country;
+import app.security.AuthenticationMetadata;
+
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.UUID;
+
 
 
 @Controller
@@ -35,28 +36,20 @@ public class IndexController {
 
     // Когато не връщаме модел атрибури, ползваме String
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@RequestParam (value = "error", required = false) String errorParam) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("loginRequest", new LoginRequest());
 
+        if (errorParam != null) {
+            modelAndView.addObject("errorMassage", "Invalid username or password!");
+        }
+
         return modelAndView;
     }
 
 
-    // HttpSession -> създава нова сесия за тази заявка
-    @PostMapping("/login")
-    public String login(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
-
-        if (bindingResult.hasErrors()) {
-            return "login";
-        }
-        User loginInUser = userService.login (loginRequest);
-        session.setAttribute ("user_id", loginInUser.getId ());
-
-        return "redirect:/home";
-    }
 
 
 
@@ -90,10 +83,9 @@ public class IndexController {
 
     //Home
     @GetMapping("/home")
-    public ModelAndView getHomePage(HttpSession session) {
+    public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata) {
 
-        UUID userId = (UUID) session.getAttribute ("user_id");
-        User user = userService.getById (userId);
+        User user = userService.getById (authenticationMetadata.getUserId ());
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.addObject ("user", user);
@@ -101,15 +93,5 @@ public class IndexController {
 
 
         return modelAndView;
-    }
-
-
-
-    //Logout
-    @GetMapping("/logout")
-    public  String getLogout (HttpSession session){
-
-        session.invalidate ();
-        return "redirect:/";
     }
 }

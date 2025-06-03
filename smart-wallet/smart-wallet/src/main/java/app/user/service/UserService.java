@@ -2,13 +2,12 @@
 package app.user.service;
 
 import app.exception.DomainException;
-import app.subscription.model.Subscription;
+import app.security.AuthenticationMetadata;
 import app.subscription.service.SubscriptionService;
 import app.user.model.User;
 import app.user.model.UserRole;
 import app.user.property.UserProperties;
 import app.user.repository.UserRepository;
-import app.wallet.model.Wallet;
 import app.wallet.service.WalletService;
 import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
@@ -17,6 +16,9 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-public class UserService {
+public class UserService  implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -52,26 +54,6 @@ public class UserService {
 
 
 
-    // Method for Login
-    public User login(LoginRequest loginRequest) {
-
-        Optional <User> optionalUser = userRepository.findByUsername (loginRequest.getUsername ());
-
-        if (optionalUser.isEmpty ()) {
-
-            throw new DomainException ("User with username=[%s] or password [%s] are incorrect."
-                    .formatted (loginRequest.getUsername (), loginRequest.getPassword ()), HttpStatus.BAD_REQUEST);
-        }
-
-        User user = optionalUser.get ();
-
-        if (!passwordEncoder.matches (loginRequest.getPassword (), user.getPassword ())) {
-            throw new DomainException ("User with username=[%s] or password [%s] are incorrect."
-                    .formatted (loginRequest.getUsername (), loginRequest.getPassword ()), HttpStatus.BAD_REQUEST);
-        }
-
-        return user;
-    }
 
 
 
@@ -169,5 +151,16 @@ public class UserService {
         }
 
         userRepository.save (user);
+    }
+
+    // after that every user login, this method will be executed and give details for this user with username
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername (username)
+                .orElseThrow (() -> new DomainException ("User with username=[%s] does not exist."
+                .formatted (username), HttpStatus.BAD_REQUEST));
+
+        return new AuthenticationMetadata (user.getId (), user.getUsername (), user.getPassword (), user.getRole (), user.isActive ());
     }
 }
