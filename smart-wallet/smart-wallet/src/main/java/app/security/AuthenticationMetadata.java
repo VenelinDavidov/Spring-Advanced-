@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+//  this class save data for login user
+
 @Data
 @Getter
 @AllArgsConstructor
@@ -25,8 +27,13 @@ public class AuthenticationMetadata implements UserDetails {
 
 
     // this method is used by Spring Security to get the user's authorities/roles
+    // authority -> permission or role
     @Override
     public Collection <? extends GrantedAuthority> getAuthorities() {
+
+        // hasRole("ADMIN") -> "ROLE_ADMIN"
+        // hasAuthority("ADMIN") -> "ADMIN"
+        // Permission: CAN_EDIT_USER_PROFILES
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority ("ROLE_" + role.name ());
 

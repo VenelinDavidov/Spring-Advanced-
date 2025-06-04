@@ -30,6 +30,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
 //                        .usernameParameter("username") //default

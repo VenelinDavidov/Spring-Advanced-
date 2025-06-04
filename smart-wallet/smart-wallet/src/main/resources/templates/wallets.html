@@ -169,7 +169,10 @@
       </div>
     </div>
 
-    <form class="wallet-block new-wallet" action="/wallets" method="post">
+    <form class="wallet-block new-wallet"
+          th:action="@{/wallets}"
+          th:method="POST">
+
       <button type="submit"></button>
     </form>
 

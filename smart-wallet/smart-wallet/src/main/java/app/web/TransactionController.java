@@ -1,11 +1,13 @@
 package app.web;
 
+import app.security.AuthenticationMetadata;
 import app.transaction.model.Transaction;
 import app.transaction.service.TransactionService;
 import app.user.model.User;
 import app.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +25,13 @@ public class TransactionController {
 
 
     private final TransactionService transactionService;
-
-
+    private final UserService userService;
 
 
     @Autowired
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService, UserService userService) {
         this.transactionService = transactionService;
+        this.userService = userService;
     }
 
 
@@ -37,14 +39,15 @@ public class TransactionController {
 
 
     @GetMapping
-    public ModelAndView getAllTransactions (HttpSession session){
+    public ModelAndView getAllTransactions (@AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
 
-        UUID userId = (UUID) session.getAttribute ("user_id");
-        List <Transaction> transactions = transactionService.getAllByOwnerId (userId);
+        User user = userService.getById (authenticationMetadata.getUserId ());
+        List <Transaction> transactions = transactionService.getAllByOwnerId (authenticationMetadata.getUserId ());
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.addObject ("transactions", transactions);
         modelAndView.setViewName ("transactions");
+        modelAndView.addObject ("user", user);
 
         return modelAndView;
     }

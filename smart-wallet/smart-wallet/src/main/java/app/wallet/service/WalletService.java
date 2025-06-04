@@ -11,7 +11,6 @@ import app.wallet.model.WalletStatus;
 import app.wallet.repository.WalletRepository;
 import app.web.dto.TransferRequest;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Currency;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,13 +42,30 @@ public class WalletService {
     }
 
 
-    public void createNewWallet(User user) {
+    public Wallet unlockNewWallet(User user) {
+
+
+
+       return null;
+    }
+
+
+
+    public Wallet initializeFirstWallet(User user) {
+
+        List <Wallet> allUsersWallet = walletRepository.findAllByOwnerUsername (user.getUsername ());
+
+        if (!allUsersWallet.isEmpty ()) {
+            throw new DomainException ("User with username [%s] already has a wallet! First wallet cannot be initialized."
+                    .formatted (user.getUsername ()), HttpStatus.BAD_REQUEST);
+        }
 
         Wallet wallet = walletRepository.save (initializeNewWallet (user));
 
         log.info ("Successfully created new wallet with id [%s] and balance [%.2f]."
                 .formatted (wallet.getId (), wallet.getBalance ()));
 
+        return wallet;
     }
 
 

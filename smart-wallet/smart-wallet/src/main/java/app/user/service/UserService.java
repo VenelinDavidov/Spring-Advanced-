@@ -9,7 +9,6 @@ import app.user.model.UserRole;
 import app.user.property.UserProperties;
 import app.user.repository.UserRepository;
 import app.wallet.service.WalletService;
-import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
 import app.web.dto.UserEditRequest;
 import jakarta.transaction.Transactional;
@@ -73,7 +72,7 @@ public class UserService  implements UserDetailsService {
 
 
         subscriptionService.createDefaultSubscription (user);
-        walletService.createNewWallet (user);
+        walletService.initializeFirstWallet (user);
 
         log.info ("Successfully created new user for username [%s] with id [%s].".formatted (user.getUsername (), user.getId ()));
 

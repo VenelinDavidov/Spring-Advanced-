@@ -49,11 +49,13 @@ public class TransferController {
         return modelAndView;
     }
 
-    @PostMapping
-    public ModelAndView initiateTransfer (@Valid TransferRequest transferRequest, BindingResult bindingResult, HttpSession session){
 
-        UUID userId = (UUID) session.getAttribute ("user_id");
-        User user = userService.getById (userId);
+
+    @PostMapping
+    public ModelAndView initiateTransfer (@Valid TransferRequest transferRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
+
+
+        User user = userService.getById (authenticationMetadata.getUserId ());
 
         if (bindingResult.hasErrors ()){
 
