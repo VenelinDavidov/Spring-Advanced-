@@ -7,7 +7,6 @@ import app.transaction.model.Transaction;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.UpgradeRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,9 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public String upgrade(@RequestParam ("subscription-type")SubscriptionType subscriptionType, UpgradeRequest upgradeRequest, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
+    public String upgrade(@RequestParam ("subscription-type")SubscriptionType subscriptionType,
+                          UpgradeRequest upgradeRequest,
+                          @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
 
 
         User user = userService.getById (authenticationMetadata.getUserId ());
@@ -73,5 +74,4 @@ public class SubscriptionController {
 
         return modelAndView;
     }
-
 }

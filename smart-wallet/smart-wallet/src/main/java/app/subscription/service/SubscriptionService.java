@@ -34,14 +34,15 @@ public class SubscriptionService {
 
     //Constructor
     @Autowired
-    public SubscriptionService(SubscriptionRepository subscriptionRepository, WalletService walletService) {
+    public SubscriptionService(SubscriptionRepository subscriptionRepository,
+                               WalletService walletService) {
         this.subscriptionRepository = subscriptionRepository;
         this.walletService = walletService;
     }
 
 
 
-    public void createDefaultSubscription (User user){
+    public Subscription  createDefaultSubscription (User user){
 
 
         Subscription subscription =subscriptionRepository.save (initilizeSubscription (user)); ;
@@ -49,6 +50,7 @@ public class SubscriptionService {
         log.info ("Successfully create new  subscription with id [%s] and type [%s]"
                 .formatted (subscription.getId (), subscription.getType ()));
 
+        return subscription;
     }
 
 
@@ -71,56 +73,55 @@ public class SubscriptionService {
                 .build ();
     }
 
+
+
     @Transactional
     public Transaction upgrade(User user, SubscriptionType subscriptionType, UpgradeRequest upgradeRequest) {
 
-        Optional <Subscription> optionalSubscription =
-                subscriptionRepository.findByStatusAndOwnerId (SubscriptionStatus.ACTIVE, user.getId ());
-
-        if (optionalSubscription.isEmpty ()){
-            throw  new DomainException ("No active subscription hasn't been found for user id [%s]"
-            .formatted (user.getId ()), HttpStatus.BAD_REQUEST);
+        Optional<Subscription> optionalSubscription = subscriptionRepository.findByStatusAndOwnerId(SubscriptionStatus.ACTIVE, user.getId());
+        if (optionalSubscription.isEmpty()) {
+            throw new DomainException("No active subscription has been found for user with id [%s]".formatted(user.getId()), HttpStatus.BAD_REQUEST);
         }
 
-        Subscription currentSubscription = optionalSubscription.get ();
-        SubscriptionPeriod subscriptionPeriod = upgradeRequest.getSubscriptionPeriod ();
+        Subscription currentSubscription = optionalSubscription.get();
+
+        // Purchase of Monthly Premium subscription
+        SubscriptionPeriod subscriptionPeriod = upgradeRequest.getSubscriptionPeriod();
+        String period = subscriptionPeriod.name().substring(0, 1).toUpperCase() + subscriptionPeriod.name().substring(1);
+        String type = subscriptionType.name().substring(0, 1).toUpperCase() + subscriptionType.name().substring(1);
+        String chargeDescription = "Purchase of %s %s subscription".formatted(period, type);
         BigDecimal subscriptionPrice = getSubscriptionPrice(subscriptionType, subscriptionPeriod);
 
-        String period = subscriptionPeriod.name ().substring (0, 1).toUpperCase () + subscriptionPeriod.name ().substring (1).toLowerCase ();
-        String type = subscriptionType.name ().substring (0, 1).toUpperCase () + subscriptionType.name ().substring (1).toLowerCase ();
-        String chargeDescriptions = "Purchase of %s %s subscription".formatted (period,type);
-
-        Transaction chargeResult = walletService.charge (user, upgradeRequest.getWalletId (), subscriptionPrice, chargeDescriptions);
-
-        if (chargeResult.getStatus () == TransactionStatus.FAILED){
-            log.info ("Charge for subscription failed for user with id [%s], subscription type [%s]".formatted (user.getId (), subscriptionType));
+        Transaction chargeResult = walletService.charge(user, upgradeRequest.getWalletId(), subscriptionPrice, chargeDescription);
+        if (chargeResult.getStatus() == TransactionStatus.FAILED) {
+            log.warn("Charge for subscription failed for user with id [%s], subscription type [%s]".formatted(user.getId(), subscriptionType));
             return chargeResult;
         }
 
-        LocalDateTime now = LocalDateTime.now ();
-        LocalDateTime completeOn;
-        if (subscriptionPeriod == SubscriptionPeriod.MONTHLY){
-            completeOn = now.plusMonths (1);
-        }else{
-            completeOn = now.plusYears (1);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime completedOn;
+        if (subscriptionPeriod == SubscriptionPeriod.MONTHLY) {
+            completedOn= now.plusMonths(1);
+        } else {
+            completedOn= now.plusYears(1);
         }
 
-        Subscription newSubscription = Subscription.builder ()
-                .owner (user)
-                .status (SubscriptionStatus.ACTIVE)
-                .period (subscriptionPeriod)
-                .type (subscriptionType)
-                .price (subscriptionPrice)
-                .renewalAllowed (subscriptionPeriod == SubscriptionPeriod.MONTHLY)
-                .createdOn (now)
-                .completedOn (completeOn)
-                .build ();
+        Subscription newSubscription = Subscription.builder()
+                .owner(user)
+                .status(SubscriptionStatus.ACTIVE)
+                .period(subscriptionPeriod)
+                .type(subscriptionType)
+                .price(subscriptionPrice)
+                .renewalAllowed(subscriptionPeriod == SubscriptionPeriod.MONTHLY)
+                .createdOn(now)
+                .completedOn(completedOn)
+                .build();
 
-        currentSubscription.setCompletedOn (now);
-        currentSubscription.setStatus (SubscriptionStatus.COMPLETED);
+        currentSubscription.setCompletedOn(now);
+        currentSubscription.setStatus(SubscriptionStatus.COMPLETED);
 
-        subscriptionRepository.save (currentSubscription);
-        subscriptionRepository.save (newSubscription);
+        subscriptionRepository.save(currentSubscription);
+        subscriptionRepository.save(newSubscription);
 
         return chargeResult;
     }
@@ -130,18 +131,17 @@ public class SubscriptionService {
 
     private BigDecimal getSubscriptionPrice(SubscriptionType subscriptionType, SubscriptionPeriod subscriptionPeriod) {
 
-        if (subscriptionType == subscriptionType.DEFAULT){
+        if (subscriptionType == SubscriptionType.DEFAULT) {
             return BigDecimal.ZERO;
-        } else if (subscriptionType == subscriptionType.PREMIUM && subscriptionPeriod == subscriptionPeriod.MONTHLY) {
-            return new BigDecimal ("19.99");
-        } else if (subscriptionType == subscriptionType.PREMIUM && subscriptionPeriod == subscriptionPeriod.YEARLY) {
-            return new BigDecimal ("199.99");
-        }else if (subscriptionType == subscriptionType.ULTIMATE && subscriptionPeriod == subscriptionPeriod.MONTHLY){
-            return new BigDecimal ("49.99");
+        } else if (subscriptionType == SubscriptionType.PREMIUM && subscriptionPeriod == SubscriptionPeriod.MONTHLY) {
+            return new BigDecimal("19.99");
+        } else if (subscriptionType == SubscriptionType.PREMIUM && subscriptionPeriod == SubscriptionPeriod.YEARLY) {
+            return new BigDecimal("199.99");
+        } else if (subscriptionType == SubscriptionType.ULTIMATE && subscriptionPeriod == SubscriptionPeriod.MONTHLY) {
+            return new BigDecimal("49.99");
         } else {
-            return new BigDecimal ("499.99");
+            return new BigDecimal("499.99");
         }
-
     }
 
 

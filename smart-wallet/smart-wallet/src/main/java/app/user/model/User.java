@@ -59,7 +59,7 @@ public class User {
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
-    @OrderBy("createdOn DESC")
+    @OrderBy("createdOn ASC ")
     private List<Wallet> wallets = new ArrayList<> ();
 }
 

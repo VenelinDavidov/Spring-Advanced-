@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
   <meta charset="UTF-8">
@@ -68,8 +69,13 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
             </svg>
           </a>
+          <a href="/notifications">
+            <p>Notifications</p>
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6h.01M12 12h.01M12 18h.01"></path>
+            </svg>
+          </a>
         </div>
-        <div class="func-block admin-func-block">
+        <div class="func-block admin-func-block" th:if="${user.role.name() == 'ADMIN'}">
           <span>Admin</span>
           <a href="/users">
             <p>Users</p>
@@ -101,9 +107,7 @@
 
         <h2>Transfer Funds</h2>
 
-        <form th:action="@{/transfers}"
-              th:method="post" class="transfer-form"
-              th:object="${transferRequest}">
+        <form th:action="@{/transfers}" th:method="post" class="transfer-form" th:object="${transferRequest}">
 
           <label for="walletId">Select Wallet</label>
           <select id="walletId" name="fromWalletId" required="" th:field="*{fromWalledId}">
@@ -128,5 +132,6 @@
     </div>
   </div>
 </main>
-<th:block th:insert="fragments/footer :: footer"></th:block>/>
+<div class="footer"><p>© 2025 Smart Wallet. All rights reserved.</p></div>
+
 <span id="okta-plugin-message-channel-available" style="display: none;"></span></body></html>

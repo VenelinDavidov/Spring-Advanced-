@@ -3,11 +3,13 @@ package app.user.service;
 
 import app.exception.DomainException;
 import app.security.AuthenticationMetadata;
+import app.subscription.model.Subscription;
 import app.subscription.service.SubscriptionService;
 import app.user.model.User;
 import app.user.model.UserRole;
 import app.user.property.UserProperties;
 import app.user.repository.UserRepository;
+import app.wallet.model.Wallet;
 import app.wallet.service.WalletService;
 import app.web.dto.RegisterRequest;
 import app.web.dto.UserEditRequest;
@@ -71,12 +73,15 @@ public class UserService  implements UserDetailsService {
         User user = userRepository.save (initializeNewUserAccount (registerRequest));
 
 
-        subscriptionService.createDefaultSubscription (user);
-        walletService.initializeFirstWallet (user);
+        Subscription defaultSubscription = subscriptionService.createDefaultSubscription(user);
+        user.setSubscriptions(List.of(defaultSubscription));
+
+        Wallet standardWallet = walletService.initializeFirstWallet(user);
+        user.setWallets(List.of(standardWallet));
 
         log.info ("Successfully created new user for username [%s] with id [%s].".formatted (user.getUsername (), user.getId ()));
 
-        return userRepository.save (user);
+        return user;
     }
 
 

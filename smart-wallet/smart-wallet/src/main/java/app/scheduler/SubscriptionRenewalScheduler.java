@@ -1,3 +1,4 @@
+
 package app.scheduler;
 
 import app.subscription.model.Subscription;
@@ -27,39 +28,37 @@ public class SubscriptionRenewalScheduler {
         this.subscriptionService = subscriptionService;
     }
 
-    @Scheduled(cron = "0 * * * * *")
-    public void renewSubscriptions (){
+    @Scheduled(fixedDelay = 200000)
+    public void renewSubscriptions() {
 
-        List <Subscription> subscriptions = subscriptionService.getAllSubscriptionsForRenewal ();
+        List<Subscription> subscriptions = subscriptionService.getAllSubscriptionsForRenewal();
 
-        if (subscriptions.isEmpty ()){
-         log.info ("No subscriptions found for renewal");
-         return;
+        if (subscriptions.isEmpty()) {
+            log.info("No subscriptions found for renewal.");
+            return;
         }
-
 
         for (Subscription subscription : subscriptions) {
 
-            if (subscription.isRenewalAllowed ()){
-                User owner = subscription.getOwner ();
-                SubscriptionType type = subscription.getType ();
-                SubscriptionPeriod period = subscription.getPeriod ();
-                UUID walletId = owner.getWallets ().get (0).getId ();
-                UpgradeRequest upgradeRequest = UpgradeRequest.builder ()
-                        .subscriptionPeriod (period)
-                        .walletId (walletId)
-                        .build ();
-
-                Transaction transaction = subscriptionService.upgrade (owner, type, upgradeRequest);
-
-                if (transaction.getStatus () == TransactionStatus.FAILED){
-                subscriptionService.terminateSubscription(subscription);
-                subscriptionService.createDefaultSubscription (subscription.getOwner ());
+            if (subscription.isRenewalAllowed()) {
+                User subscriptionOwner = subscription.getOwner();
+                SubscriptionType type = subscription.getType();
+                SubscriptionPeriod period = subscription.getPeriod();
+                UUID walletId = subscriptionOwner.getWallets().get(0).getId();
+                UpgradeRequest upgradeRequest = UpgradeRequest.builder()
+                        .subscriptionPeriod(period)
+                        .walletId(walletId)
+                        .build();
+                Transaction transaction = subscriptionService.upgrade(subscriptionOwner, type, upgradeRequest);
+                if (transaction.getStatus() == TransactionStatus.FAILED) {
+                    subscriptionService.terminateSubscription(subscription);
+                    subscriptionService.createDefaultSubscription(subscription.getOwner());
                 }
-            }else{
+            } else {
                 subscriptionService.markSubscriptionAsCompleted(subscription);
-                subscriptionService.createDefaultSubscription (subscription.getOwner ());
+                subscriptionService.createDefaultSubscription(subscription.getOwner());
             }
         }
+
     }
 }

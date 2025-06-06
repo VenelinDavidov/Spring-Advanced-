@@ -1,6 +1,8 @@
 package app.wallet.service;
 
 import app.exception.DomainException;
+import app.subscription.model.Subscription;
+import app.subscription.model.SubscriptionType;
 import app.transaction.model.Transaction;
 import app.transaction.model.TransactionStatus;
 import app.transaction.model.TransactionType;
@@ -18,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -42,11 +41,34 @@ public class WalletService {
     }
 
 
-    public Wallet unlockNewWallet(User user) {
 
 
 
-       return null;
+    public void unlockNewWallet(User user) {
+
+        List <Wallet> allUserWallets = walletRepository.findAllByOwnerUsername (user.getUsername ()); // get all user wallets
+        Subscription activeSubscription = user.getSubscriptions ().get (0);  // get the first subscription who ever is active
+
+        boolean isDefaultPlanAndMaxWalletUnlocked = activeSubscription.getType () == SubscriptionType.DEFAULT  && allUserWallets.size () == 1;
+        boolean isPremiumPlanAndMaxWalletUnlocked = activeSubscription.getType () == SubscriptionType.PREMIUM  && allUserWallets.size () == 2;
+        boolean isUltimatePlanAndMaxWalletUnlocked = activeSubscription.getType () == SubscriptionType.ULTIMATE  && allUserWallets.size () == 3;
+
+        if (isDefaultPlanAndMaxWalletUnlocked || isPremiumPlanAndMaxWalletUnlocked || isUltimatePlanAndMaxWalletUnlocked) {
+            throw new DomainException ("Max wallet count reached for user with id [%s] and subscription type [%s]."
+                    .formatted (user.getId (), activeSubscription.getType ()), HttpStatus.BAD_REQUEST);
+        }
+
+        // build new wallet for user plan
+        Wallet newWallet = Wallet.builder ()
+                .owner (user)
+                .status (WalletStatus.ACTIVE)
+                .balance (new BigDecimal ("0"))
+                .currency (Currency.getInstance ("EUR"))
+                .createdOn (LocalDateTime.now ())
+                .updatedOn (LocalDateTime.now ())
+                .build ();
+
+        walletRepository.save (newWallet);  // save repo
     }
 
 
@@ -56,8 +78,8 @@ public class WalletService {
         List <Wallet> allUsersWallet = walletRepository.findAllByOwnerUsername (user.getUsername ());
 
         if (!allUsersWallet.isEmpty ()) {
-            throw new DomainException ("User with username [%s] already has a wallet! First wallet cannot be initialized."
-                    .formatted (user.getUsername ()), HttpStatus.BAD_REQUEST);
+            throw new DomainException ("User with username [%s] with id [%s] already has a wallet! First wallet cannot be initialized."
+                    .formatted (user.getUsername (), user.getId ()), HttpStatus.BAD_REQUEST);
         }
 
         Wallet wallet = walletRepository.save (initializeNewWallet (user));
@@ -124,7 +146,8 @@ public class WalletService {
                 .filter (w -> w.getStatus () == WalletStatus.ACTIVE)
                 .findFirst ();
 
-        String transferDescription = "Transfer from %s to %s, for %.2f".formatted (sender.getUsername (), transferRequest.getToUsername (), transferRequest.getAmount ());
+        String transferDescription = "Transfer from %s to %s, for %.2f"
+                .formatted (sender.getUsername (), transferRequest.getToUsername (), transferRequest.getAmount ());
 
 
         if (receiverWalletOptional.isEmpty ()){
@@ -265,4 +288,39 @@ public class WalletService {
     }
 
 
+    public Map <UUID, List <Transaction>> getLastFourTransactions(List <Wallet> wallets) {
+
+        Map <UUID, List <Transaction>> transactionsByWalletsId = new LinkedHashMap <> ();
+
+        for (Wallet wallet : wallets) {
+
+        List<Transaction> lastFourTransactions  = transactionService.getLastFourTransactionsByWalletId (wallet);
+        transactionsByWalletsId.put (wallet.getId (), lastFourTransactions);
+        }
+
+        return transactionsByWalletsId;
+    }
+
+
+
+
+
+    public void switchWalletStatus(UUID walletId, UUID ownerId) {
+
+        Optional <Wallet> optionalWallet = walletRepository.findByIdAndOwnerId (walletId, ownerId);
+
+        if (optionalWallet.isEmpty ()) {
+            throw new DomainException ("Wallet with id [%s] does not exist, to user with id [%s]!"
+                    .formatted (walletId, ownerId), HttpStatus.BAD_REQUEST);
+        }
+
+        Wallet wallet = optionalWallet.get ();
+
+        if (wallet.getStatus () == WalletStatus.ACTIVE) {
+            wallet.setStatus (WalletStatus.INACTIVE);
+        } else {
+            wallet.setStatus (WalletStatus.ACTIVE);
+        }
+        walletRepository.save (wallet);
+    }
 }
