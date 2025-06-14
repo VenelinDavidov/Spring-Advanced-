@@ -90,7 +90,8 @@ public class UserController {
 
 
 
-    @PutMapping("/{id}/status") // PUT -> /users/ {id} /status
+    @PutMapping("/{id}/status")// PUT -> /users/ {id} /status
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateUserStatus (@PathVariable UUID id){
 
         userService.switchStatus(id);
@@ -99,7 +100,8 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}/role") // PUT -> /users/ {id} /role
+    @PutMapping("/{id}/role")// PUT -> /users/ {id} /role
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateUserRole (@PathVariable UUID id){
 
         userService.switchRole (id);

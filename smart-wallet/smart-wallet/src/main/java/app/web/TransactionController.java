@@ -54,19 +54,18 @@ public class TransactionController {
 
 
     @GetMapping("/{id}")
-    public ModelAndView getTransactionById (@PathVariable UUID id){
+    public ModelAndView getTransactionById (@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetadata authenticationMetadata){
 
+        User user = userService.getById (authenticationMetadata.getUserId ());
         Transaction transaction = transactionService.getById (id);
 
         ModelAndView modelAndView = new ModelAndView ();
         modelAndView.setViewName ("transaction-result");
         modelAndView.addObject ("transaction", transaction);
+        modelAndView.addObject ("user", user);
 
 
         return modelAndView;
         }
-
-
-
 
 }
