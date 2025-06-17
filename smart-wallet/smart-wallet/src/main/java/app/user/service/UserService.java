@@ -1,6 +1,7 @@
 
 package app.user.service;
 
+import app.email.service.NotificationService;
 import app.exception.DomainException;
 import app.security.AuthenticationMetadata;
 import app.subscription.model.Subscription;
@@ -37,6 +38,7 @@ public class UserService  implements UserDetailsService {
     private final SubscriptionService subscriptionService;
     private final WalletService walletService;
     private final UserProperties userProperties;
+    private final NotificationService notificationService;
 
 
     //Constructor
@@ -45,12 +47,14 @@ public class UserService  implements UserDetailsService {
                        PasswordEncoder passwordEncoder,
                        SubscriptionService subscriptionService,
                        WalletService walletService,
-                       UserProperties userProperties) {
+                       UserProperties userProperties,
+                       NotificationService notificationService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.subscriptionService = subscriptionService;
         this.walletService = walletService;
         this.userProperties = userProperties;
+        this.notificationService = notificationService;
     }
 
 
@@ -78,6 +82,9 @@ public class UserService  implements UserDetailsService {
 
         Wallet standardWallet = walletService.initializeFirstWallet(user);
         user.setWallets(List.of(standardWallet));
+
+        //Persist new Notification Preference with isEnabled = false
+//        notificationService.saveNotificationService (user.getId (), false, null );
 
         log.info ("Successfully created new user for username [%s] with id [%s].".formatted (user.getUsername (), user.getId ()));
 

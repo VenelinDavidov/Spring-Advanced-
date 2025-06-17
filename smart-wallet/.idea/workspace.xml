@@ -4,7 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="167bb993-5964-4721-b900-5ccb5f7c35fa" name="Changes" comment="new updates" />
+    <list default="true" id="167bb993-5964-4721-b900-5ccb5f7c35fa" name="Changes" comment="new updates">
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/model/Notification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/model/NotificationPreference.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/model/NotificationStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/model/NotificationType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/repository/NotificationPreferenceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/repository/NotificationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/NotificationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationPreferencesResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationTypeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/dto/UpsertNotificationPreference.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../notification-svc/notification-svc/src/main/java/app/web/mapper/DtoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/smart-wallet/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/smart-wallet/src/main/java/app/email/client/NotificationClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/java/app/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/java/app/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/java/app/web/TransactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/java/app/web/TransactionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/java/app/web/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/java/app/web/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/subscription-history.html" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/subscription-history.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/transaction-result.html" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/transaction-result.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/transactions.html" beforeDir="false" afterPath="$PROJECT_DIR$/smart-wallet/src/main/resources/templates/transactions.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,47 +76,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatOrder0&quot;: &quot;0&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatOrder1&quot;: &quot;1&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatOrder2&quot;: &quot;2&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatOrder3&quot;: &quot;3&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatWidth0&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatWidth1&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatWidth2&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_flatWidth3&quot;: &quot;444&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeOrder0&quot;: &quot;0&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeOrder1&quot;: &quot;1&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeOrder2&quot;: &quot;2&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeOrder3&quot;: &quot;3&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeWidth0&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeWidth1&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeWidth2&quot;: &quot;445&quot;,
-    &quot;FileHistory.git4idea.history.GitHistoryProvider_treeWidth3&quot;: &quot;444&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;wallet&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/VITORIYA/IdeaProjects/Spring-Advanced/smart-wallet&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.log&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FileHistory.git4idea.history.GitHistoryProvider_flatOrder0": "0",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatOrder1": "1",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatOrder2": "2",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatOrder3": "3",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatWidth0": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatWidth1": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatWidth2": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_flatWidth3": "444",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeOrder0": "0",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeOrder1": "1",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeOrder2": "2",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeOrder3": "3",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeWidth0": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeWidth1": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeWidth2": "445",
+    "FileHistory.git4idea.history.GitHistoryProvider_treeWidth3": "444",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.Application.executor": "Run",
+    "git-widget-placeholder": "wallet",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/VITORIYA/IdeaProjects/Spring-Advanced/notification-svc",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "vcs.log",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -136,6 +161,7 @@
       <workItem from="1748262145652" duration="77000" />
       <workItem from="1748262237638" duration="552000" />
       <workItem from="1748262796312" duration="150000" />
+      <workItem from="1749852981461" duration="9000" />
     </task>
     <task id="LOCAL-00001" summary="new updates for smart wallet app">
       <option name="closed" value="true" />
