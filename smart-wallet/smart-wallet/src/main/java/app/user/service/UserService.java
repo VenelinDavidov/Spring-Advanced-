@@ -84,7 +84,7 @@ public class UserService  implements UserDetailsService {
         user.setWallets(List.of(standardWallet));
 
         //Persist new Notification Preference with isEnabled = false
-//        notificationService.saveNotificationService (user.getId (), false, null );
+//        notificationService.saveNotificationPreference (user.getId (), false, null );
 
         log.info ("Successfully created new user for username [%s] with id [%s].".formatted (user.getUsername (), user.getId ()));
 
@@ -97,10 +97,18 @@ public class UserService  implements UserDetailsService {
 
         User user = getById(userId);
 
+        if (userEditRequest.getEmail ().isBlank ()) {
+            notificationService.saveNotificationPreference (userId , false, null);
+        }
+
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
         user.setProfilePicture(userEditRequest.getProfilePicture());
+
+        if (!userEditRequest.getEmail ().isBlank ()){
+           notificationService.saveNotificationPreference (userId, true, userEditRequest.getEmail());
+        }
 
         userRepository.save(user);
 

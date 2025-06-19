@@ -1,5 +1,6 @@
 package app.wallet.service;
 
+import app.email.service.NotificationService;
 import app.exception.DomainException;
 import app.subscription.model.Subscription;
 import app.subscription.model.SubscriptionType;
@@ -32,12 +33,14 @@ public class WalletService {
     private final TransactionService transactionService;
 
 
+
     //Constructor
     @Autowired
     public WalletService(WalletRepository walletRepository,
                          TransactionService transactionService) {
         this.walletRepository = walletRepository;
         this.transactionService = transactionService;
+
     }
 
 
@@ -188,6 +191,7 @@ public class WalletService {
                 TransactionStatus.SUCCEEDED,
                 transferDescription,
                 null);
+
 
         return withdrawal;
     }

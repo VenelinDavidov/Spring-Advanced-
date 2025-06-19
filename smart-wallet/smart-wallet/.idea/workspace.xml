@@ -4,38 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15fd0253-7a8d-454b-b7b6-4dd9ba9e88a2" name="Changes" comment="updates for wallets in app">
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/model/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/model/NotificationPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/model/NotificationStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/model/NotificationType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/repository/NotificationPreferenceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/repository/NotificationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/NotificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationPreferencesResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/dto/NotificationTypeRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/dto/UpsertNotificationPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/mapper/DtoMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/app/email/client/dto/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/app/email/client/dto/NotificationPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/app/email/client/dto/UpsertNotificationPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/app/email/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/app/web/NotificationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/notifications.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/notifications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="15fd0253-7a8d-454b-b7b6-4dd9ba9e88a2" name="Changes" comment="updates for notification service and controller. Update app for dto microservice">
+      <change afterPath="$PROJECT_DIR$/src/main/java/app/email/client/dto/NotificationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../notification-svc/notification-svc/src/main/java/app/web/NotificationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/email/client/NotificationClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/email/client/NotificationClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/email/client/TestInit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/email/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/email/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/subscription/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/subscription/service/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/transaction/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/transaction/service/TransactionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/user/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/wallet/service/WalletService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/wallet/service/WalletService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/web/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/web/NotificationController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +105,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.Application.executor": "Run",
+    "Spring Boot.Application.executor": "Debug",
     "git-widget-placeholder": "wallet",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/VITORIYA/IdeaProjects/Spring-Advanced/notification-svc",
@@ -274,7 +254,9 @@
       <workItem from="1750017843519" duration="27000" />
       <workItem from="1750017900850" duration="3572000" />
       <workItem from="1750093569823" duration="770000" />
-      <workItem from="1750102034510" duration="17014000" />
+      <workItem from="1750102034510" duration="18385000" />
+      <workItem from="1750276994764" duration="10191000" />
+      <workItem from="1750361967484" duration="1710000" />
     </task>
     <task id="LOCAL-00001" summary="new updates from spring">
       <option name="closed" value="true" />
@@ -396,7 +378,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749890624516</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="updates for notification service and controller. Update app for dto microservice">
+      <option name="closed" value="true" />
+      <created>1750186835850</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1750186835850</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,6 +430,23 @@
     <MESSAGE value="Spring security details for app" />
     <MESSAGE value="Spring security details for app, updates" />
     <MESSAGE value="updates for wallets in app" />
-    <option name="LAST_COMMIT_MESSAGE" value="updates for wallets in app" />
+    <MESSAGE value="updates for notification service and controller. Update app for dto microservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates for notification service and controller. Update app for dto microservice" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/app/web/NotificationController.java</url>
+          <line>72</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/app/email/service/NotificationService.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -92,6 +92,18 @@ public class NotificationController {
     }
 
 
+    @PutMapping("/preferences")
+    public ResponseEntity<NotificationPreferencesResponse> changeNotificationPreference (@RequestParam (name = "userId") UUID userId, @RequestParam (name = "enabled") boolean enabled) {
+
+        NotificationPreference notificationPreference = notificationService.changeNotificationPreference (userId, enabled);
+
+        NotificationPreferencesResponse responseDto = DtoMapper.fromNotificationPreference (notificationPreference);
+
+        return ResponseEntity
+                .status (HttpStatus.OK)
+                .body (responseDto);
+    }
+
 
 
 

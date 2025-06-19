@@ -3,6 +3,7 @@ package app.email.service;
 import app.email.client.NotificationClient;
 import app.email.client.dto.Notification;
 import app.email.client.dto.NotificationPreference;
+import app.email.client.dto.NotificationRequest;
 import app.email.client.dto.UpsertNotificationPreference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class NotificationService {
 
 
 
-    public void saveNotificationService(UUID userId, boolean isEmailEnabled,  String email) {
+    public void saveNotificationPreference(UUID userId, boolean isEmailEnabled,  String email) {
 
         UpsertNotificationPreference upsertNotificationPreference = UpsertNotificationPreference.builder()
                 .userId(userId)
@@ -72,5 +73,42 @@ public class NotificationService {
 
         return httpResponseHistory.getBody ();
 
+    }
+
+
+
+    // send notification for transfer many
+    public void sendNotification(UUID userId, String emailSubject, String emailBody) {
+
+        NotificationRequest notificationRequest = NotificationRequest.builder ()
+                .userId (userId)
+                .subject (emailSubject)
+                .body (emailBody)
+                .build ();
+
+        ResponseEntity <Void> httpResponse;
+
+        try {
+        httpResponse = notificationClient.sendNotification (notificationRequest);
+
+        if (!httpResponse.getStatusCode ().is2xxSuccessful ()) {
+            log.error ("Failed to send notification, for user with id [%s] ".formatted (userId));
+           }
+        } catch (Exception e) {
+            log.warn ("Unable to call notification-svc. 500 internal server error");
+        }
+
+    }
+
+
+
+
+    public void updateNotificationPreference(UUID userId, boolean enabled) {
+
+        try {
+            notificationClient.updateNotificationPreferences(userId, enabled);
+        } catch (Exception e) {
+            log.warn("Can't update notification preferences for user with id = [%s].".formatted(userId));
+        }
     }
 }

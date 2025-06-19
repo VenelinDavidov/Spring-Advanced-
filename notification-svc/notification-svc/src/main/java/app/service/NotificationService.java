@@ -132,4 +132,14 @@ public class NotificationService {
 
       return notificationRepository.findAllByUserIdAndDeletedIsFalse (userId);
     }
+
+
+
+
+    public NotificationPreference changeNotificationPreference(UUID userId, boolean enabled) {
+
+        NotificationPreference notificationPreference = getPreferenceByUserId (userId);
+        notificationPreference.setEnabled (enabled);
+        return preferenceRepository.save (notificationPreference);
+    }
 }

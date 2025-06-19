@@ -1,5 +1,6 @@
 package app.transaction.service;
 
+import app.email.service.NotificationService;
 import app.exception.DomainException;
 import app.transaction.model.Transaction;
 import app.transaction.model.TransactionStatus;
@@ -24,12 +25,15 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final NotificationService notificationService;
 
 
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository,
+                              NotificationService notificationService) {
         this.transactionRepository = transactionRepository;
+        this.notificationService = notificationService;
     }
 
 
@@ -51,6 +55,12 @@ public class TransactionService {
                 .failureReason (failureReason)
                 .createdOn (LocalDateTime.now ())
                 .build ();
+
+        String emailBody = "Transfer from %s to %s, for %.2f was successful"
+                .formatted (transaction.getSender (), transaction.getReceiver (), transaction.getAmount ());
+
+
+        notificationService.sendNotification (transaction.getOwner ().getId (), "Money Transfer from Smart Wallet", emailBody);
 
         return transactionRepository.save (transaction);
     }

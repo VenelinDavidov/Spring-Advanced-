@@ -2,13 +2,11 @@ package app.email.client;
 
 import app.email.client.dto.Notification;
 import app.email.client.dto.NotificationPreference;
+import app.email.client.dto.NotificationRequest;
 import app.email.client.dto.UpsertNotificationPreference;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,4 +28,10 @@ public interface NotificationClient {
 
     @GetMapping
     ResponseEntity <List <Notification>>  getNotificationHistory(@RequestParam(name = "userId") UUID userId);
+
+    @PostMapping
+    ResponseEntity<Void> sendNotification(@RequestBody NotificationRequest notificationRequest);
+
+    @PutMapping("/preferences")
+    ResponseEntity<Void> updateNotificationPreferences(@RequestParam(name = "userId") UUID userId, @RequestParam(name = "enabled") boolean enabled);
 }
